@@ -33,6 +33,7 @@ const columnsFromBackend =
       name:'Done',
       items : []
     }
+  
   }
 
   const onDragEnd = (result, columns , setColumns) =>{
