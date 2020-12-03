@@ -28,6 +28,10 @@ const columnsFromBackend =
     [uuid()]:{
       name:'In Progress',
       items : []
+    },
+    [uuid()]:{
+      name:'Done',
+      items : []
     }
   }
 
@@ -109,8 +113,10 @@ function App() {
                                     padding: 16,
                                     margin:'0 0 8px 0',
                                     minHeight:'50px',
-                                    backgroundColor: snapshot.isDragging?'#263b4a': '#456C86',
+                                    // backgroundColor: snapshot.isDragging?'#263b4a': '#456C86',
+                                    backgroundColor: snapshot.isDragging?'#6A8CC3': '#35558A',
                                     color: 'white',
+                                    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
                                     ...provided.draggableProps.style
                                   }}
                                 >
