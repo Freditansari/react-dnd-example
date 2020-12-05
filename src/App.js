@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import {v4 as uuid} from 'uuid';
+import InventoryCard from './Components/InventoryCard/InventoryCard';
 /**
  * tutorial source : 
  * https://codesandbox.io/s/jovial-leakey-i0ex5?file=/src/App.js
@@ -9,6 +10,12 @@ import {v4 as uuid} from 'uuid';
 
 
 const itemsFromBackend =[
+  {id: uuid(), content:'first task'},
+  {id: uuid(), content:'second task'},
+  {id: uuid(), content:'third task'},
+  {id: uuid(), content:'first task'},
+  {id: uuid(), content:'second task'},
+  {id: uuid(), content:'third task'},
   {id: uuid(), content:'first task'},
   {id: uuid(), content:'second task'},
   {id: uuid(), content:'third task'},
@@ -82,19 +89,22 @@ const columnsFromBackend =
 function App() {
   const [columns, setColumns] = useState(columnsFromBackend);
   return (
+    
     <div className="App" style={{display: 'flex', justifyContent:'center', height:'100%'}}>
+        
         <DragDropContext onDragEnd = {result =>{ onDragEnd(result, columns, setColumns)}} >
 
           {Object.entries(columns).map(([id, column])=>{
             return (
              <div style={{margin: 8}}>
+          
               <Droppable droppableId={id} key={id}>
                 {(provided, snapshot)=>{
                   return (
                     <div {...provided.droppableProps} ref={provided.innerRef} 
                     style={{ background: snapshot.isDraggingOver?'lightblue': 'lightgrey', 
                       padding: 4, 
-                      width: 250, 
+                      width: 350, 
                       minHeight: 500
                     }}>
                       <div style={{display: 'flex', flexDirection:'column', alignItems:'center' }}>
@@ -121,7 +131,8 @@ function App() {
                                     ...provided.draggableProps.style
                                   }}
                                 >
-                                  {item.content}
+                                  {/* {item.content} */}
+                                  <InventoryCard />    
 
                                 </div>
                               )
