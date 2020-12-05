@@ -1,0 +1,12 @@
+.product-image{
+    margin-top: 5px;
+    height: 100%;
+    width: 100%;
+}
+.card{
+    height: 169px;
+    width: 462px
+}
+p{
+    font-size: 10px;
+}
