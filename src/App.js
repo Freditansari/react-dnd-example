@@ -29,7 +29,7 @@ function App() {
   const [spaceId, setSpaceId] = useState({});
   
   const columnsFromBackend =
-  [{
+  {
     [uuid()]:{
       name:'Todo',
       items : []
@@ -43,7 +43,7 @@ function App() {
       items : []
     }
   
-  }]
+  }
   const [columns, setColumns] = useState(columnsFromBackend);
   // console.log(columns)
   return (

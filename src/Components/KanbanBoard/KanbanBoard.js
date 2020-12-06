@@ -59,8 +59,10 @@ const KanbanBoard = props => {
                 items:[]
             }
         }
+        // props.setColumns(Object.entries(props.columnsFromBackend).push(newColumn))
+        // console.log(props.columnsFromBackend)
   
-        props.setColumns(...columnsFromBackend, newColumn)
+        // props.setColumns([...props.columnsFromBackend, newColumn])
     
      
     }
@@ -71,8 +73,6 @@ const KanbanBoard = props => {
         <DragDropContext onDragEnd = {result =>{ onDragEnd(result, columns, setColumns)}} >
 
           {Object.entries(columns).map(([id, column])=>{
-      
-     
             return (
              <div style={{margin: 8}}>
           
@@ -86,7 +86,7 @@ const KanbanBoard = props => {
                       minHeight: 500
                     }}>
                       <div style={{display: 'flex', flexDirection:'column', alignItems:'center' }}>
-                      {/* <h2>{column.name}</h2> */}
+                      <h2>{column.name}</h2>
                       </div>
                       {column.items.map((item, index)=>{
                         return (
