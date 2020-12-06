@@ -6,8 +6,9 @@ import InventoryCard from '../InventoryCard/InventoryCard'
 import AddColumn from '../addColumn/AddColumn';
 
 const onDragEnd = (result, columns , setColumns, type) =>{
+  console.log("old columns: ",columns)
     if(!result.destination) return; 
-    const {source, destination} = result;
+    const {source, destination, draggableId} = result;
     // console.log(type)
 
     if(source.droppableId !== destination.droppableId && type==="task"){
@@ -46,10 +47,15 @@ const onDragEnd = (result, columns , setColumns, type) =>{
     }
 
     if(type=== "column" ){
-      console.log(columns)
-      console.log(source.droppableId)
-      console.log("source: ", columns[source.droppableId])
-      console.log("destination: ", columns[destination.droppableId])
+      // const newColumnOrder = columns;
+      // // console.log("new column order: " ,newColumnOrder) 
+      // setColumns(newColumnOrder)
+
+      // newColumnOrder.splice(source.index, 1)
+      // newColumnOrder.splice(destination.index, 0, draggableId)
+      // console.log("old columns: ",columns)
+      //todo set state later
+      // setColumns({columns})
     }
 
     // console.log(columns)
