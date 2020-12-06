@@ -5,66 +5,75 @@ import {v4 as uuid} from 'uuid';
 import InventoryCard from '../InventoryCard/InventoryCard'
 import AddColumn from '../addColumn/AddColumn';
 
-const onDragEnd = (result, columns , setColumns, type) =>{
-  console.log("old columns: ",columns)
-    if(!result.destination) return; 
-    const {source, destination, draggableId} = result;
-    // console.log(type)
 
-    if(source.droppableId !== destination.droppableId && type==="task"){
-      const sourceColumn = columns[source.droppableId];
-      const destColumn = columns[destination.droppableId];
-      const sourceItems= [...sourceColumn.items];
-      const destItems =[...destColumn.items];
-      const [removed] = sourceItems.splice(source.index, 1);
-      destItems.splice(destination.index, 0, removed);
-      setColumns({
-        ...columns, 
-        [source.droppableId]:{
-          ...sourceColumn,
-          items: sourceItems
-        },
-        [destination.droppableId]:{
-          ...destColumn,
-          items: destItems
-        }
-      })
-
-    }else if(type==="task"){
-      const column = columns[source.droppableId];
-      const copiedItems = [...column.items];
-      const [removed] = copiedItems.splice(source.index, 1);
-      copiedItems.splice(destination.index, 0 , removed);
-      setColumns({
-        ...columns,
-        [source.droppableId]:{
-          ...column,
-          items: copiedItems
-        }
-      })
-  
-
-    }
-
-    if(type=== "column" ){
-      // const newColumnOrder = columns;
-      // // console.log("new column order: " ,newColumnOrder) 
-      // setColumns(newColumnOrder)
-
-      // newColumnOrder.splice(source.index, 1)
-      // newColumnOrder.splice(destination.index, 0, draggableId)
-      // console.log("old columns: ",columns)
-      //todo set state later
-      // setColumns({columns})
-    }
-
-    // console.log(columns)
-  }
 
 
 const KanbanBoard = props => {
     const {columns, setColumns} = props
     // const [columns, setColumns] = useState(columnsFromBackend);
+    const onDragEnd = (result, columns , setColumns, type) =>{
+      // console.log("old columns: ",columns)
+        if(!result.destination) return; 
+        const {source, destination, draggableId} = result;
+        // console.log(type)
+    
+        if(source.droppableId !== destination.droppableId && type==="task"){
+          const sourceColumn = columns[source.droppableId];
+          const destColumn = columns[destination.droppableId];
+          const sourceItems= [...sourceColumn.items];
+          const destItems =[...destColumn.items];
+          const [removed] = sourceItems.splice(source.index, 1);
+          destItems.splice(destination.index, 0, removed);
+          setColumns({
+            ...columns, 
+            [source.droppableId]:{
+              ...sourceColumn,
+              items: sourceItems
+            },
+            [destination.droppableId]:{
+              ...destColumn,
+              items: destItems
+            }
+          })
+    
+        }else if(type==="task"){
+          const column = columns[source.droppableId];
+          const copiedItems = [...column.items];
+          const [removed] = copiedItems.splice(source.index, 1);
+          copiedItems.splice(destination.index, 0 , removed);
+          setColumns({
+            ...columns,
+            [source.droppableId]:{
+              ...column,
+              items: copiedItems
+            }
+          })
+      
+    
+        }
+    
+        if(type=== "column" ){
+          console.log(source)
+          let copiedColumns = Object.entries(columns)
+          const movedColumn = columns[draggableId];
+          const toIndex = destination.index;
+
+          const [removed] = copiedColumns.splice(source.index, 1)
+          // console.log(removed)
+          copiedColumns.splice(toIndex, 0, removed)
+
+          console.log(...copiedColumns)
+          // copiedColumns = copiedColumns.splice(source.index, 1)
+          // console.log(copiedColumns) 
+          // console.log(movedColumn)
+          // copiedColumns.splice(toIndex, 0, movedColumn)
+          // console.log(copiedColumns)
+  
+        }
+    
+        // console.log(columns)
+      }
+    
 
 
     const handleAddColumn = () =>{
