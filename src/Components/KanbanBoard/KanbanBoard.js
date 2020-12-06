@@ -48,8 +48,8 @@ const onDragEnd = (result, columns , setColumns) =>{
 
 
 const KanbanBoard = props => {
-    const {columnsFromBackend} = props
-    const [columns, setColumns] = useState(columnsFromBackend);
+    const {columns, setColumns} = props
+    // const [columns, setColumns] = useState(columnsFromBackend);
 
 
     const handleAddColumn = () =>{
@@ -60,9 +60,11 @@ const KanbanBoard = props => {
             }
         }
         // props.setColumns(Object.entries(props.columnsFromBackend).push(newColumn))
-        // console.log(props.columnsFromBackend)
+        // console.log(typeof( props.columnsFromBackend))
   
-        // props.setColumns([...props.columnsFromBackend, newColumn])
+        props.setColumns({...props.columns, ...newColumn})
+        // props.setColumns(props.col)
+        // props.setColumns(props.columnsFromBackend.push(newColumn))
     
      
     }
@@ -109,8 +111,8 @@ const KanbanBoard = props => {
                                     ...provided.draggableProps.style
                                   }}
                                 >
-                                  {/* {item.content} */}
-                                  <InventoryCard />   
+                                  {item.content}
+                                  {/* <InventoryCard />    */}
                                  
 
                                 </div>
@@ -135,8 +137,8 @@ const KanbanBoard = props => {
 
         </DragDropContext>
         <div>
-            {/* <AddColumn setColumns = {props.setColumns} columns = {columnsFromBackend}/> */}
-            < button class="btn btn-info btn-block" onClick={handleAddColumn} type="submit">Save</button>
+            <AddColumn setColumns = {props.setColumns} columns = {props.columns}/>
+            {/* < button class="btn btn-info btn-block" onClick={handleAddColumn} type="submit">Save</button> */}
         </div>
    
     

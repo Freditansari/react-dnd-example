@@ -32,11 +32,15 @@ function App() {
   {
     [uuid()]:{
       name:'Todo',
-      items : []
+      items : [
+          {id: uuid(), content:'first task'},
+      ]
     },
     [uuid()]:{
       name:'In Progress',
-      items : []
+      items : [
+          {id: uuid(), content:'second task'},
+      ]
     },
     [uuid()]:{
       name:'Done',
@@ -48,7 +52,7 @@ function App() {
   // console.log(columns)
   return (
     <div>
-      <KanbanBoard columnsFromBackend = {columns} setColumns = {setColumns}/>
+      <KanbanBoard columns = {columns} setColumns = {setColumns}/>
     </div>
   )
     
