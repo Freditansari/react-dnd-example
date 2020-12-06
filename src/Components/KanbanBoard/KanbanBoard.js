@@ -5,11 +5,12 @@ import {v4 as uuid} from 'uuid';
 import InventoryCard from '../InventoryCard/InventoryCard'
 import AddColumn from '../addColumn/AddColumn';
 
-const onDragEnd = (result, columns , setColumns) =>{
+const onDragEnd = (result, columns , setColumns, type) =>{
     if(!result.destination) return; 
     const {source, destination} = result;
+    // console.log(type)
 
-    if(source.droppableId !== destination.droppableId){
+    if(source.droppableId !== destination.droppableId && type==="task"){
       const sourceColumn = columns[source.droppableId];
       const destColumn = columns[destination.droppableId];
       const sourceItems= [...sourceColumn.items];
@@ -28,7 +29,7 @@ const onDragEnd = (result, columns , setColumns) =>{
         }
       })
 
-    }else{
+    }else if(type==="task"){
       const column = columns[source.droppableId];
       const copiedItems = [...column.items];
       const [removed] = copiedItems.splice(source.index, 1);
@@ -44,6 +45,14 @@ const onDragEnd = (result, columns , setColumns) =>{
 
     }
 
+    if(type=== "column" ){
+      console.log(columns)
+      console.log(source.droppableId)
+      console.log("source: ", columns[source.droppableId])
+      console.log("destination: ", columns[destination.droppableId])
+    }
+
+    // console.log(columns)
   }
 
 
@@ -68,83 +77,99 @@ const KanbanBoard = props => {
     
      
     }
+    /**
+     *  style={{display: 'flex', flexDirection:"column", alignItems:'center' }}
+     */
 
     return (
-        <div className="App" style={{display: 'flex', justifyContent:'center', height:'100%'}}>
-        
-        <DragDropContext onDragEnd = {result =>{ onDragEnd(result, columns, setColumns)}} >
-
-          {Object.entries(columns).map(([id, column])=>{
-            return (
-             <div style={{margin: 8}}>
-          
-              <Droppable droppableId={id} key={id}>
-                {(provided, snapshot)=>{
-                  return (
-                    <div {...provided.droppableProps} ref={provided.innerRef} 
-                    style={{ background: snapshot.isDraggingOver?'lightblue': 'lightgrey', 
-                      padding: 4, 
-                      width: 350, 
-                      minHeight: 500
-                    }}>
-                      <div style={{display: 'flex', flexDirection:'column', alignItems:'center' }}>
-                      <h2>{column.name}</h2>
-                      </div>
-                      {column.items.map((item, index)=>{
+      <div>
+           <DragDropContext onDragEnd = {result =>{ onDragEnd(result, columns, setColumns, result.type)}} >
+               <Droppable droppableId="all-columns" type="column" direction="horizontal">{(provided, snapshot) =>(
+               <div {...provided.droppableProps} ref={provided.innerRef} >
+                    <div className="App" style={{display: 'flex', justifyContent:'center',  height:'100%'}}>
+                    
+                
+                  
+                      {Object.entries(columns).map(([id, column], index)=>{
+                        // console.log("index: ", index)
                         return (
-                          <Draggable key = {item.id} draggableId= {item.id} index ={index}>
-                            {(provided, snapshot)=>{
-                              return (
-                                <div
-                                  ref = {provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  style ={{
-                                    userSelect:'none',
-                                    padding: 16,
-                                    margin:'0 0 8px 0',
-                                    minHeight:'50px',
-                                    // backgroundColor: snapshot.isDragging?'#263b4a': '#456C86',
-                                    backgroundColor: snapshot.isDragging?'#6A8CC3': '#35558A',
-                                    color: 'white',
-                                    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-                                    ...provided.draggableProps.style
-                                  }}
-                                >
-                                  {item.content}
-                                  {/* <InventoryCard />    */}
-                                 
+                          <Draggable draggableId = {id} index ={index}>
+                            {(provided) =>(
+                            <div  ref = {provided.innerRef}
+                            {...provided.draggableProps}
+                            >
+                              <div style={{margin: 8}}>
+                                          <div style={{display: 'flex', flexDirection:"column", alignItems:'center' }}>
+                                          <h2 {...provided.dragHandleProps}>{column.name}</h2>
+                                          </div>
+                                          <Droppable droppableId={id} key={id} direction="vertical" type="task" >
+                                            {(provided, snapshot) =>(
+                                            <div {...provided.droppableProps} ref={provided.innerRef} 
+                                            style={{ background: snapshot.isDraggingOver?'lightblue': 'lightgrey', 
+                                              padding: 4, 
+                                              width: 350, 
+                                              minHeight: 500
+                                            }}>
+                                                  {column.items.map((item, index)=>{
+                                                    return (
+                                                      
+                                                      <Draggable key = {item.id} draggableId= {item.id} index ={index}>
+                                                        {(provided, snapshot)=>{
+                                                          return (
+                                                            <div
+                                                              ref = {provided.innerRef}
+                                                              {...provided.draggableProps}
+                                                              {...provided.dragHandleProps}
+                                                              style ={{
+                                                                userSelect:'none',
+                                                                padding: 16,
+                                                                margin:'0 0 8px 0',
+                                                                minHeight:'50px',
+                                                                // backgroundColor: snapshot.isDragging?'#263b4a': '#456C86',
+                                                                backgroundColor: snapshot.isDragging?'#6A8CC3': '#35558A',
+                                                                color: 'white',
+                                                                boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+                                                                ...provided.draggableProps.style
+                                                              }}
+                                                            >
+                                                              {item.content}
+                                                              {/* <InventoryCard />    */}
+                                                              
+
+                                                            </div>
+                                                          )
+                                                        }}
+                                                    
+                                              
+                                                      </Draggable>
+                                                      
+                                                    )
+                                                  })}
+                                          </div>)}
+                                          </Droppable>
+                                          
+                                      
 
                                 </div>
-                              )
-                            }}
-                       
-                 
+                            </div>)}
                           </Draggable>
-                          
                         )
                       })}
-                     
+                
+                
+                  
+                    <div>
+                        <AddColumn setColumns = {props.setColumns} columns = {props.columns}/>
+                        {/* < button class="btn btn-info btn-block" onClick={handleAddColumn} type="submit">Save</button> */}
                     </div>
-                  )
-                }
-
-                }
-              </Droppable>
-              </div>
-            )
-          })}
-
-        </DragDropContext>
-        <div>
-            <AddColumn setColumns = {props.setColumns} columns = {props.columns}/>
-            {/* < button class="btn btn-info btn-block" onClick={handleAddColumn} type="submit">Save</button> */}
-        </div>
-   
-    
+              
+                
+                </div>
+         </div>)}</Droppable>
+      </DragDropContext>
     </div>
   );
-    
+  
 }
 
 KanbanBoard.propTypes = {

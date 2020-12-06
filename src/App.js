@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import InventoryCard from './Components/InventoryCard/InventoryCard';
 import KanbanBoard from './Components/KanbanBoard/KanbanBoard';
 import {v4 as uuid} from 'uuid';
+import KanbanDashboard from './Components/KanbanDashboard/KanbanDashboard';
 
 /**
  * tutorial source : 
@@ -52,7 +53,10 @@ function App() {
   // console.log(columns)
   return (
     <div>
-      <KanbanBoard columns = {columns} setColumns = {setColumns}/>
+  
+        <KanbanBoard columns = {columns} setColumns = {setColumns}/>
+        {/* <KanbanDashboard columns = {columns} setColumns={setColumns} /> */}
+
     </div>
   )
     
