@@ -4,15 +4,15 @@ import { DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import {v4 as uuid} from 'uuid';
 import InventoryCard from '../InventoryCard/InventoryCard'
 import AddColumn from '../addColumn/AddColumn';
+import {MDBContainer} from "mdbreact"
+import './KanbanBoard.css'
+
+
 
 
 const KanbanBoard = props => {
     const {columns, setColumns} = props
 
-    // useEffect(()=>{
-    //   // props.setColumns(localStorage.getItem('myData'))
-    //   console.log(localStorage.getItem('myData'))
-    // },[])
 
     useEffect(() => {
       const loadedObject = JSON.parse(localStorage.getItem('myData'))
@@ -25,9 +25,7 @@ const KanbanBoard = props => {
       } catch (error) {
         console.log("no entry found")
       }
-      // if(Object.entries(loadedObject).length !== 0 ){
-      //   setColumns(loadedObject)
-      // }
+
     }, [])
 
     const array_move =(arr, old_index, new_index) =>{
@@ -50,7 +48,7 @@ const KanbanBoard = props => {
     const onDragEnd = (result, columns , setColumns, type) =>{
       // console.log("old columns: ",columns)
         if(!result.destination) return; 
-        const {source, destination, draggableId} = result;
+        const {source, destination} = result;
         // console.log(type)
     
         if(source.droppableId !== destination.droppableId && type==="task"){
@@ -114,8 +112,11 @@ const KanbanBoard = props => {
 
 
     return (
-      <div>
-           <DragDropContext onDragEnd = {result =>{ onDragEnd(result, columns, setColumns, result.type)}} >
+  
+           <div>
+      
+                  <div className="scrollmenu" >
+                  <DragDropContext onDragEnd = {result =>{ onDragEnd(result, columns, setColumns, result.type)}} >
                <Droppable droppableId="all-columns" type="column" direction="horizontal">{(provided, snapshot) =>(
                <div {...provided.droppableProps} ref={provided.innerRef} >
                     <div className="App" style={{display: 'flex', justifyContent:'center',  height:'100%'}}>
@@ -199,7 +200,15 @@ const KanbanBoard = props => {
                 </div>
          </div>)}</Droppable>
       </DragDropContext>
+                  </div>
+       
+       
+           
+ 
     </div>
+
+    
+     
   );
   
 }

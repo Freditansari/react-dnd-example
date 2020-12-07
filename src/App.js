@@ -3,27 +3,14 @@ import React, {useState} from 'react';
 import InventoryCard from './Components/InventoryCard/InventoryCard';
 import KanbanBoard from './Components/KanbanBoard/KanbanBoard';
 import {v4 as uuid} from 'uuid';
-import KanbanDashboard from './Components/KanbanDashboard/KanbanDashboard';
+import {MDBContainer} from "mdbreact"
+
 
 /**
  * tutorial source : 
  * https://codesandbox.io/s/jovial-leakey-i0ex5?file=/src/App.js
  * https://www.youtube.com/watch?v=Vqa9NMzF3wc&t=180s&ab_channel=LogRocket
  */
-
-
-// const itemsFromBackend =[
-//   {id: uuid(), content:'first task'},
-//   {id: uuid(), content:'second task'},
-//   {id: uuid(), content:'third task'},
-//   {id: uuid(), content:'first task'},
-//   {id: uuid(), content:'second task'},
-//   {id: uuid(), content:'third task'},
-//   {id: uuid(), content:'first task'},
-//   {id: uuid(), content:'second task'},
-//   {id: uuid(), content:'third task'},
-
-// ]
 
 function App() {
   const [companyId, setCompanyId] = useState({});
@@ -55,7 +42,12 @@ function App() {
   return (
     <div>
   
-        <KanbanBoard columns = {columns} setColumns = {setColumns}/>
+              <KanbanBoard columns = {columns} setColumns = {setColumns}/>
+
+    
+          
+            
+        
         {/* <KanbanDashboard columns = {columns} setColumns={setColumns} /> */}
 
     </div>
