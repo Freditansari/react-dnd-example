@@ -4,7 +4,6 @@ import { DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import {v4 as uuid} from 'uuid';
 import InventoryCard from '../InventoryCard/InventoryCard'
 import AddColumn from '../addColumn/AddColumn';
-import {MDBContainer} from "mdbreact"
 import './KanbanBoard.css'
 
 
@@ -115,14 +114,11 @@ const KanbanBoard = props => {
   
            <div>
       
-                  <div className="scrollmenu" >
+                  <div className="scrolling-wrapper-flexbox">
                   <DragDropContext onDragEnd = {result =>{ onDragEnd(result, columns, setColumns, result.type)}} >
                <Droppable droppableId="all-columns" type="column" direction="horizontal">{(provided, snapshot) =>(
                <div {...provided.droppableProps} ref={provided.innerRef} >
-                    <div className="App" style={{display: 'flex', justifyContent:'center',  height:'100%'}}>
-                    
-                
-                  
+                    <div classname="scrolls" style={{display: 'flex', justifyContent:'center',  height:'100%'}}>                  
                       {Object.entries(columns).map(([id, column], index)=>{
                         // console.log("index: ", index)
                         return (
@@ -137,7 +133,7 @@ const KanbanBoard = props => {
                                           </div>
                                           <Droppable droppableId={id} key={id} direction="vertical" type="task" >
                                             {(provided, snapshot) =>(
-                                            <div {...provided.droppableProps} ref={provided.innerRef} 
+                                            <div className="card" {...provided.droppableProps} ref={provided.innerRef} 
                                             style={{ background: snapshot.isDraggingOver?'lightblue': 'lightgrey', 
                                               padding: 4, 
                                               width: 350, 
@@ -150,6 +146,7 @@ const KanbanBoard = props => {
                                                         {(provided, snapshot)=>{
                                                           return (
                                                             <div
+                                                            
                                                               ref = {provided.innerRef}
                                                               {...provided.draggableProps}
                                                               {...provided.dragHandleProps}

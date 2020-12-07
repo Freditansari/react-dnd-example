@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import InventoryCard from './Components/InventoryCard/InventoryCard';
 import KanbanBoard from './Components/KanbanBoard/KanbanBoard';
 import {v4 as uuid} from 'uuid';
-import {MDBContainer} from "mdbreact"
+
 
 
 /**
