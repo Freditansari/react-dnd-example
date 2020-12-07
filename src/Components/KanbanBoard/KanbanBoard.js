@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import {v4 as uuid} from 'uuid';
@@ -6,10 +6,46 @@ import InventoryCard from '../InventoryCard/InventoryCard'
 import AddColumn from '../addColumn/AddColumn';
 
 
-
-
 const KanbanBoard = props => {
     const {columns, setColumns} = props
+
+    // useEffect(()=>{
+    //   // props.setColumns(localStorage.getItem('myData'))
+    //   console.log(localStorage.getItem('myData'))
+    // },[])
+
+    useEffect(() => {
+      const loadedObject = JSON.parse(localStorage.getItem('myData'))
+      console.log(loadedObject)
+      try {
+         if(Object.entries(loadedObject).length !== 0 ){
+            setColumns(loadedObject)
+          }
+        
+      } catch (error) {
+        console.log("no entry found")
+      }
+      // if(Object.entries(loadedObject).length !== 0 ){
+      //   setColumns(loadedObject)
+      // }
+    }, [])
+
+    const array_move =(arr, old_index, new_index) =>{
+      while (old_index < 0) {
+          old_index += arr.length;
+      }
+      while (new_index < 0) {
+          new_index += arr.length;
+      }
+      if (new_index >= arr.length) {
+          var k = new_index - arr.length + 1;
+          while (k--) {
+              arr.push(undefined);
+          }
+      }
+      arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+      return arr; // for testing purposes
+  };
     // const [columns, setColumns] = useState(columnsFromBackend);
     const onDragEnd = (result, columns , setColumns, type) =>{
       // console.log("old columns: ",columns)
@@ -53,48 +89,29 @@ const KanbanBoard = props => {
         }
     
         if(type=== "column" ){
-          console.log(source)
           let copiedColumns = Object.entries(columns)
-          const movedColumn = columns[draggableId];
+          // const movedColumn = columns[draggableId];
           const toIndex = destination.index;
-
-          const [removed] = copiedColumns.splice(source.index, 1)
-          // console.log(removed)
-          copiedColumns.splice(toIndex, 0, removed)
-
-          console.log(...copiedColumns)
-          // copiedColumns = copiedColumns.splice(source.index, 1)
-          // console.log(copiedColumns) 
-          // console.log(movedColumn)
-          // copiedColumns.splice(toIndex, 0, movedColumn)
-          // console.log(copiedColumns)
-  
-        }
+          const fromIndex = source.index;
+        
+          // sortedObject = [...copiedColumns.splice(toIndex,1)]
+          const sortedObject = array_move(copiedColumns, fromIndex, toIndex)
+          
+          let sendThisToState ={};
+          for (let index = 0; index < sortedObject.length; index++) {
+              
+              sendThisToState[sortedObject[index][0]]= sortedObject[index][1];
+            
+          }
+          console.log(sendThisToState)
+          setColumns(sendThisToState)
     
-        // console.log(columns)
+        }
+
       }
     
 
 
-    const handleAddColumn = () =>{
-        const newColumn = {
-            [uuid()]:{
-                name: "banana",
-                items:[]
-            }
-        }
-        // props.setColumns(Object.entries(props.columnsFromBackend).push(newColumn))
-        // console.log(typeof( props.columnsFromBackend))
-  
-        props.setColumns({...props.columns, ...newColumn})
-        // props.setColumns(props.col)
-        // props.setColumns(props.columnsFromBackend.push(newColumn))
-    
-     
-    }
-    /**
-     *  style={{display: 'flex', flexDirection:"column", alignItems:'center' }}
-     */
 
     return (
       <div>

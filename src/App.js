@@ -50,6 +50,7 @@ function App() {
   
   }
   const [columns, setColumns] = useState(columnsFromBackend);
+  // const [columns, setColumns] = useState({});
   // console.log(columns)
   return (
     <div>
