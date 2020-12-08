@@ -1,18 +1,19 @@
 import React,{useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import {v4 as uuid} from 'uuid';
-import InventoryCard from '../InventoryCard/InventoryCard'
 import AddColumn from '../addColumn/AddColumn';
+import AddTask from '../AddTask/AddTask'
+import './KanbanBoard.css'
+import {v4 as uuid} from 'uuid';
+
+
+
 
 
 const KanbanBoard = props => {
     const {columns, setColumns} = props
 
-    // useEffect(()=>{
-    //   // props.setColumns(localStorage.getItem('myData'))
-    //   console.log(localStorage.getItem('myData'))
-    // },[])
+    const forceUpdate = React.useState()[1].bind(null, {}) 
 
     useEffect(() => {
       const loadedObject = JSON.parse(localStorage.getItem('myData'))
@@ -25,9 +26,7 @@ const KanbanBoard = props => {
       } catch (error) {
         console.log("no entry found")
       }
-      // if(Object.entries(loadedObject).length !== 0 ){
-      //   setColumns(loadedObject)
-      // }
+
     }, [])
 
     const array_move =(arr, old_index, new_index) =>{
@@ -49,8 +48,9 @@ const KanbanBoard = props => {
     // const [columns, setColumns] = useState(columnsFromBackend);
     const onDragEnd = (result, columns , setColumns, type) =>{
       // console.log("old columns: ",columns)
+        console.log(JSON.stringify(columns))
         if(!result.destination) return; 
-        const {source, destination, draggableId} = result;
+        const {source, destination} = result;
         // console.log(type)
     
         if(source.droppableId !== destination.droppableId && type==="task"){
@@ -114,14 +114,14 @@ const KanbanBoard = props => {
 
 
     return (
-      <div>
-           <DragDropContext onDragEnd = {result =>{ onDragEnd(result, columns, setColumns, result.type)}} >
-               <Droppable droppableId="all-columns" type="column" direction="horizontal">{(provided, snapshot) =>(
+  
+           <div>
+      
+                  <div className="scrolling-wrapper-flexbox">
+                  <DragDropContext onDragEnd = {result =>{ onDragEnd(result, columns, setColumns, result.type)}} >
+               <Droppable key={uuid()} droppableId="all-columns" type="column" direction="horizontal">{(provided, snapshot) =>(
                <div {...provided.droppableProps} ref={provided.innerRef} >
-                    <div className="App" style={{display: 'flex', justifyContent:'center',  height:'100%'}}>
-                    
-                
-                  
+                    <div classname="scrolls" style={{display: 'flex', justifyContent:'center',  height:'100%'}}>                  
                       {Object.entries(columns).map(([id, column], index)=>{
                         // console.log("index: ", index)
                         return (
@@ -136,7 +136,7 @@ const KanbanBoard = props => {
                                           </div>
                                           <Droppable droppableId={id} key={id} direction="vertical" type="task" >
                                             {(provided, snapshot) =>(
-                                            <div {...provided.droppableProps} ref={provided.innerRef} 
+                                            <div className="card" {...provided.droppableProps} ref={provided.innerRef} 
                                             style={{ background: snapshot.isDraggingOver?'lightblue': 'lightgrey', 
                                               padding: 4, 
                                               width: 350, 
@@ -148,7 +148,9 @@ const KanbanBoard = props => {
                                                       <Draggable key = {item.id} draggableId= {item.id} index ={index}>
                                                         {(provided, snapshot)=>{
                                                           return (
+                                                            <div>
                                                             <div
+                                                            
                                                               ref = {provided.innerRef}
                                                               {...provided.draggableProps}
                                                               {...provided.dragHandleProps}
@@ -167,31 +169,39 @@ const KanbanBoard = props => {
                                                               {item.content}
                                                               {/* <InventoryCard />    */}
                                                               
-
+                                                              
                                                             </div>
+                                                         
+                                                            </div>
+                                                            
                                                           )
+                                                          
                                                         }}
                                                     
-                                              
+                                                       
                                                       </Draggable>
+                                                      
                                                       
                                                     )
                                                   })}
+                                                    
                                           </div>)}
                                           </Droppable>
                                           
                                       
 
                                 </div>
+                                <AddTask setColumns = {props.setColumns} columnId = {id} columns={props.columns} key={id} forceUpdate ={forceUpdate} />
                             </div>)}
                           </Draggable>
+                          
                         )
                       })}
                 
                 
                   
                     <div>
-                        <AddColumn setColumns = {props.setColumns} columns = {props.columns}/>
+                        <AddColumn setColumns = {props.setColumns} columns = {props.columns} /> 
                         {/* < button class="btn btn-info btn-block" onClick={handleAddColumn} type="submit">Save</button> */}
                     </div>
               
@@ -199,7 +209,15 @@ const KanbanBoard = props => {
                 </div>
          </div>)}</Droppable>
       </DragDropContext>
+                  </div>
+       
+       
+           
+ 
     </div>
+
+    
+     
   );
   
 }
