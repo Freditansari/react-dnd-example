@@ -48,7 +48,7 @@ const AddColumn = props => {
         <div>
             <form class="border border-light p-5">
 
-                <input type="text" name="columnName" value = {newColumn.columnName} onChange={handleInputChange} id="columnNameInput" class="form-control mb-4" placeholder="Enter Column name here.. " />
+            <input type="text" name="columnName" value = {newColumn.columnName} onChange={handleInputChange} id="columnNameInput" class="form-control mb-4" placeholder="Enter Column name here.. " />
 
              < button class="btn btn-info btn-block" onClick={handleAddColumn} type="submit">New Column</button>
              < button class="btn btn-info btn-block" onClick={handleSaveColumn} type="submit">Save Columns</button>

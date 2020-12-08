@@ -16,27 +16,27 @@ function App() {
   const [companyId, setCompanyId] = useState({});
   const [spaceId, setSpaceId] = useState({});
   
-  const columnsFromBackend =
-  {
-    [uuid()]:{
-      name:'Todo',
-      items : [
-          {id: uuid(), content:'first task'},
-      ]
-    },
-    [uuid()]:{
-      name:'In Progress',
-      items : [
-          {id: uuid(), content:'second task'},
-      ]
-    },
-    [uuid()]:{
-      name:'Done',
-      items : []
-    }
+  // const columnsFromBackend =
+  // {
+  //   [uuid()]:{
+  //     name:'Todo',
+  //     items : [
+  //         {id: uuid(), content:'first task'},
+  //     ]
+  //   },
+  //   [uuid()]:{
+  //     name:'In Progress',
+  //     items : [
+  //         {id: uuid(), content:'second task'},
+  //     ]
+  //   },
+  //   [uuid()]:{
+  //     name:'Done',
+  //     items : []
+  //   }
   
-  }
-  const [columns, setColumns] = useState(columnsFromBackend);
+  // }
+  const [columns, setColumns] = useState({});
   // const [columns, setColumns] = useState({});
   // console.log(columns)
   return (

@@ -1,10 +1,11 @@
 import React,{useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import {v4 as uuid} from 'uuid';
-import InventoryCard from '../InventoryCard/InventoryCard'
 import AddColumn from '../addColumn/AddColumn';
+import AddTask from '../AddTask/AddTask'
 import './KanbanBoard.css'
+import {v4 as uuid} from 'uuid';
+
 
 
 
@@ -12,6 +13,7 @@ import './KanbanBoard.css'
 const KanbanBoard = props => {
     const {columns, setColumns} = props
 
+    const forceUpdate = React.useState()[1].bind(null, {}) 
 
     useEffect(() => {
       const loadedObject = JSON.parse(localStorage.getItem('myData'))
@@ -46,6 +48,7 @@ const KanbanBoard = props => {
     // const [columns, setColumns] = useState(columnsFromBackend);
     const onDragEnd = (result, columns , setColumns, type) =>{
       // console.log("old columns: ",columns)
+        console.log(JSON.stringify(columns))
         if(!result.destination) return; 
         const {source, destination} = result;
         // console.log(type)
@@ -116,7 +119,7 @@ const KanbanBoard = props => {
       
                   <div className="scrolling-wrapper-flexbox">
                   <DragDropContext onDragEnd = {result =>{ onDragEnd(result, columns, setColumns, result.type)}} >
-               <Droppable droppableId="all-columns" type="column" direction="horizontal">{(provided, snapshot) =>(
+               <Droppable key={uuid()} droppableId="all-columns" type="column" direction="horizontal">{(provided, snapshot) =>(
                <div {...provided.droppableProps} ref={provided.innerRef} >
                     <div classname="scrolls" style={{display: 'flex', justifyContent:'center',  height:'100%'}}>                  
                       {Object.entries(columns).map(([id, column], index)=>{
@@ -145,6 +148,7 @@ const KanbanBoard = props => {
                                                       <Draggable key = {item.id} draggableId= {item.id} index ={index}>
                                                         {(provided, snapshot)=>{
                                                           return (
+                                                            <div>
                                                             <div
                                                             
                                                               ref = {provided.innerRef}
@@ -165,31 +169,39 @@ const KanbanBoard = props => {
                                                               {item.content}
                                                               {/* <InventoryCard />    */}
                                                               
-
+                                                              
                                                             </div>
+                                                         
+                                                            </div>
+                                                            
                                                           )
+                                                          
                                                         }}
                                                     
-                                              
+                                                       
                                                       </Draggable>
+                                                      
                                                       
                                                     )
                                                   })}
+                                                    
                                           </div>)}
                                           </Droppable>
                                           
                                       
 
                                 </div>
+                                <AddTask setColumns = {props.setColumns} columnId = {id} columns={props.columns} key={id} forceUpdate ={forceUpdate} />
                             </div>)}
                           </Draggable>
+                          
                         )
                       })}
                 
                 
                   
                     <div>
-                        <AddColumn setColumns = {props.setColumns} columns = {props.columns}/>
+                        <AddColumn setColumns = {props.setColumns} columns = {props.columns} /> 
                         {/* < button class="btn btn-info btn-block" onClick={handleAddColumn} type="submit">Save</button> */}
                     </div>
               
